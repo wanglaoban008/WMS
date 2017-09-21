@@ -165,4 +165,18 @@
             <value>库存数量</value>
         </property>
     </entity>
+    <entity class="com.ken.wms.domain.UrlAuthorityDTO" sheetName="菜单权限信息" boldHeading="true">
+        <property>
+            <field>actionName</field>
+            <value>请求名称</value>
+        </property>
+        <property>
+            <field>actionDesc</field>
+            <value>请求描述</value>
+        </property>
+        <property>
+            <field>actionParam</field>
+            <value>请求地址</value>
+        </property>
+    </entity>
 </configuration>

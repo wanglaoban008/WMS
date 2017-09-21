@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ken.wms.dao.UrlAuthorityMapper">
+
+	<resultMap type="com.ken.wms.domain.UrlAuthority" id="urlAuthorityResult">
+		<id property="id" column="ACTION_ID"/>
+		<result property="actionName" column="ACTION_NAME"/>
+		<result property="actionDesc" column="ACTION_DESC"/>
+		<result property="actionParam" column="ACTION_PARAM"/>
+	</resultMap>
+	
+	<!-- 查询 页面 语句 -->
+	<select id="searchByActionType" parameterType="com.ken.wms.domain.UrlAuthority"
+			resultMap="urlAuthorityResult">
+		select
+		<include refid="Base_Column_List"/>
+		from wms_action t
+		<where>
+			<include refid="urlauthority_where_sql"/>
+		</where>
+	</select>
+
+	<sql id="Base_Column_List">
+		ACTION_ID,
+		ACTION_NAME,
+		ACTION_DESC,
+		ACTION_PARAM
+	</sql>
+
+	<!-- where 引用语句 -->
+	<sql id="urlauthority_where_sql">
+		<if test ="actionName != null and actionName != '' ">
+			and t.ACTION_NAME LIKE "%"#{actionName}"%"
+		</if>
+		<if test ="actionParam != null and actionParam != '' ">
+			and t.ACTION_PARAM LIKE "%"#{actionParam}"%"
+		</if>
+	</sql>
+
+	<!-- 根据ID删除菜单权限 -->
+	<delete id="deleteUrlAuthorityById" parameterType="java.lang.Integer">
+		delete from wms_action
+		where ACTION_ID = #{id}
+	</delete>
+
+	<!-- 新增菜单权限信息 -->
+	<insert id="addUrlauthorityInfo">
+		insert into wms_action(ACTION_NAME,ACTION_DESC,ACTION_PARAM)
+		values(#{actionName},#{actionDesc},#{actionParam})
+	</insert>
+
+	<!-- 修改菜单权限信息 -->
+	<update id="updateUrlAuthorityInfo" parameterType="com.ken.wms.domain.UrlAuthorityDTO">
+		UPDATE wms_action a
+		SET
+		<if test ="actionName != null">
+			a.ACTION_NAME = #{actionName},
+		</if>
+		<if test ="actionParam != null">
+			a.ACTION_PARAM = #{actionParam},
+		</if>
+		<if test ="actionDesc != null">
+			a.ACTION_DESC = #{actionDesc}
+		</if>
+		WHERE a.ACTION_ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<insert id="insertBatch">
+		insert into wms_action(ACTION_NAME,ACTION_DESC,ACTION_PARAM)
+		values
+		<foreach collection="list" item="urlAuthority" separator=",">
+			(#{urlAuthority.actionName},#{urlAuthority.actionDesc},#{urlAuthority.actionParam})
+		</foreach>
+	</insert>
+
+
+</mapper>

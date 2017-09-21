@@ -222,6 +222,10 @@ pageEncoding="UTF-8"%>
                                         <a href="javascript:void(0)" id=""
                                            class="menu_item" name="pagecomponent/accessRecordManagement.jsp">登陆日志</a>
                                     </li>
+                                    <li class="list-group-item">
+                                        <a href="javascript:void(0)" id=""
+                                           class="menu_item" name="pagecomponent/urlauthorityManagement.jsp">菜单权限</a>
+                                    </li>
                                 </shiro:hasRole>
                             </ul>
                         </div>
